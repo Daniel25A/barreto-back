@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Data;
 
@@ -11,9 +12,10 @@ using WebApi.Data;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221016062415_MovementsTable")]
+    partial class MovementsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,43 +133,6 @@ namespace WebApi.Migrations
                     b.ToTable("Obligations");
                 });
 
-            modelBuilder.Entity("WebApi.Entities.Payment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("ClientId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MovementId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ObligationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("RegisterAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Since")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Until")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("MovementId");
-
-                    b.HasIndex("ObligationId");
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("WebApi.Entities.User", b =>
                 {
                     b.Property<long>("Id")
@@ -217,33 +182,6 @@ namespace WebApi.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebApi.Entities.Payment", b =>
-                {
-                    b.HasOne("WebApi.Entities.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApi.Entities.Movement", "Movement")
-                        .WithMany()
-                        .HasForeignKey("MovementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApi.Entities.Obligation", "Obligation")
-                        .WithMany()
-                        .HasForeignKey("ObligationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Movement");
-
-                    b.Navigation("Obligation");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using WebApi.Data;
 using WebApi.Entities;
+using WebApi.Models.Request;
 
 namespace WebApi.Controllers;
 [Route("api/cobranzas"),ApiController]
@@ -57,5 +59,14 @@ public class CobranzaController : Controller
         await _context.Clients.AddRangeAsync(clients, token);
         await _context.SaveChangesAsync(token);
         return Ok("Clientes Importados con exito");
+    }
+
+    [HttpPost("create-obligation")]
+    public async Task<IActionResult> CreateObligation(CreateObligationRequest request,CancellationToken token)
+    {
+        var obligation = request.Adapt<Obligation>();
+        await _context.Obligations.AddAsync(obligation, token);
+        await _context.SaveChangesAsync(token);
+        return Ok("Creado con exito ");
     }
 }
