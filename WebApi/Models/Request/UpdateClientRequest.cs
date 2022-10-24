@@ -1,11 +1,10 @@
-﻿namespace WebApi.Entities;
+﻿namespace WebApi.Models.Request;
 
-public class Client : BaseEntity
+public class UpdateClientRequest
 {
     public string? FullName { get; set; } = string.Empty;
     public string? Ruc { get; set; }= string.Empty;
     public int Dv { get; set; }
-    public List<Obligation> Obligations { get; set; } = new();
     public decimal ServicePrice { get; set; }
     public string? PaymentStatus { get; set; } = string.Empty;
     public string PhoneNumber { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Data;
 
@@ -11,9 +12,10 @@ using WebApi.Data;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221021205606_DocNumber2")]
+    partial class DocNumber2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,35 +47,38 @@ namespace WebApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
+                    b.Property<string>("AccountStatus")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Available")
-                        .HasColumnType("bit");
 
                     b.Property<int>("Dv")
                         .HasColumnType("int");
 
-                    b.Property<string>("FantasyName")
-                        .IsRequired()
+                    b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("Observations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
+                    b.Property<string>("PurchasingStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ruc")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SalesStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("ServicePrice")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -143,33 +148,27 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EndMonth")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MonthCount")
-                        .HasColumnType("int");
-
                     b.Property<long?>("MovementId")
+                        .IsRequired()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MovementId1")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ObligationId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Observation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("PaymentTypeId")
                         .HasColumnType("bigint");
-
-                    b.Property<decimal>("Pending")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("RegisterAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StartMonth")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Since")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Until")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -182,6 +181,8 @@ namespace WebApi.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("MovementId");
+
+                    b.HasIndex("MovementId1");
 
                     b.HasIndex("ObligationId");
 
@@ -269,8 +270,14 @@ namespace WebApi.Migrations
                         .IsRequired();
 
                     b.HasOne("WebApi.Entities.Movement", "Movement")
+                        .WithMany()
+                        .HasForeignKey("MovementId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WebApi.Entities.Movement", null)
                         .WithMany("Payments")
-                        .HasForeignKey("MovementId");
+                        .HasForeignKey("MovementId1");
 
                     b.HasOne("WebApi.Entities.Obligation", "Obligation")
                         .WithMany()

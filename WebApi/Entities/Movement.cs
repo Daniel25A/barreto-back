@@ -10,4 +10,5 @@ public class Movement : BaseEntity
     public decimal Must { get; set; }
     public decimal ToHave { get; set; }
     public DateTime CreateAt { get; set; }
+    public List<Payment> Payments { get; set; }
 }

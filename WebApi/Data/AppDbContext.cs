@@ -11,12 +11,14 @@ public class AppDbContext : DbContext
         
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder) =>
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+    }
 
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Client> Clients { get; set; } = null!;
     public DbSet<Obligation> Obligations { get; set; } = null!;
     public DbSet<Movement> Movements { get; set; } = null!;
     public DbSet<Payment> Payments { get; set; } = null!;
+    public DbSet<PaymentType> PaymentTypes { get; set; } = null!;
 }
